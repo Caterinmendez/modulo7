@@ -1,0 +1,18 @@
+{% extends 'tareas/layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<form class="forms" method='POST'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type='submit'>inicio sesion</button>
+
+
+</form>
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'tareas/layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<h1>Bienvenidos {{user.username}}</h1>   
+
+<a href="{% url 'login' %}"><img src="{% static "tareas/img/logoimagen.png" %} " alt="" ></a>
+
+
+
+{% endblock content %}
