@@ -4,18 +4,10 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;   
-    background-image: srt;
-
+        
 }
 
-body {
-    font-family: Arial, sans-serif;
-    /*background-image: url('../img/fondo_body2.png');*/
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;   
-}
+
 nav {
     background-color: rgb(245, 171, 171)
 }
@@ -41,3 +33,5 @@ footer ul li a {
     text-decoration: none;
     color: white;
 }
+
+

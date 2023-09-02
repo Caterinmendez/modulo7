@@ -2,8 +2,24 @@
 {% load static %}
 
 {% block content %}
-
 <h1>Oliwis {{user.username}} </h1>
+
+<a href="{% url 'crearTarea' %}">Crear Tarea</a>
+
+{% for tarea in context %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <form action="{% url 'editarTarea' tarea.id %}" method='POST' style="display: inline;">
+                {% csrf_token %}
+                <button class="btn btn-link" type="submit">{{tarea.titulo}}</button>
+            </form>
+            <form action="{% url 'eliminarTarea' tarea.id %}" method='POST' style="display: inline;">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">Eliminar</button>
+            </form> 
+        </div>
+    </div>
+{% endfor %}
 
 
 {% endblock content %}

@@ -6,7 +6,7 @@ class Etiqueta(models.Model):
     tipo = models.CharField(max_length=15)
 
     def __str__(self) -> str:
-        return self.type
+        return self.tipo
 
 class Tarea(models.Model):
     ESTADOS = [
