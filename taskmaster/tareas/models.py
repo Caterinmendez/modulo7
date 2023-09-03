@@ -21,6 +21,8 @@ class Tarea(models.Model):
     estados = models.CharField(max_length=20, choices=ESTADOS, default='iniciado')
     identificador = models.ForeignKey(User, on_delete=models.CASCADE)
     etiqueta_tarea = models.ForeignKey(Etiqueta, default=1, on_delete=models.CASCADE)
+    comentario = models.TextField(max_length=200, null=True) 
+
 
     def __str__(self) -> str:
         return f'{self.titulo} > {self.identificador}'

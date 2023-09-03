@@ -21,6 +21,7 @@ def crearTarea(request):
             estados = form.cleaned_data["estados"]
             identificador = form.cleaned_data["identificador"]
             etiqueta_tarea = form.cleaned_data["etiqueta_tarea"]
+            comentario = form.cleaned_data["comentario"]
 
             post = Tarea(
                 titulo = titulo,
@@ -28,7 +29,8 @@ def crearTarea(request):
                 vencimiento = vencimiento,
                 estados = estados,
                 identificador = identificador,
-                etiqueta_tarea = etiqueta_tarea,                
+                etiqueta_tarea = etiqueta_tarea,    
+                comentario = comentario,            
             )
             post.save()
             return redirect('home')
@@ -59,11 +61,20 @@ class TareaListView(View):
 
         return render(request, 'tareas/home.html', {"context": queryset})
 
-
-
 def cambiarEstado(request, id):
     tarea = Tarea.objects.get(pk=id)
     if request.method == "POST":
         tarea.estados = 'meta cumplida'
         tarea.save()
         return redirect('home') 
+
+
+def comentario(request, id):
+    tarea = Tarea.objects.get(pk=id)
+
+    if request.method == "POST":
+        nuevo_comentario = request.POST.get('comentario')  
+        tarea.comentario = nuevo_comentario  
+        tarea.save()  
+        return redirect('home')  
+

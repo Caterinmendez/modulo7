@@ -11,28 +11,35 @@
 <a href="{% url 'crearTarea' %}">Agregar Tarea</a>
 
 <div class="container col-6 mt-3" >
-         
-    <table class="table table-dark table-hover">
-         
-      <thead>
-        <tr>
-          <th>
-            <form method="GET">
-                <label for="etiqueta_tarea">Etiqueta</label>
-                <select name="etiqueta_tarea" id="etiqueta_tarea">
-                    <option value="">todas</option>
-                    <option value="1">prueba</option>
-                    <option value="3">deportes</option>
-                    <option value="4">estudios</option>
-                    <option value="5">otro</option>  
-                </select>
-                <input type="submit" value="filtrar">
-            </form>
-         </th> 
-          <th></th> 
-          <th></th> 
-          
-        </tr>
+    <table class="table table-dark table-hover">        
+        <thead>
+            <tr>      
+            <th></th> 
+            <th>
+                <ul class="nav nav-tabs">                
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Etiquetas</a>
+                            <ul class="dropdown-menu">
+                                <form method="GET">
+                                    <label for="etiqueta_tarea"></label>
+                                    <select name="etiqueta_tarea" id="etiqueta_tarea">
+                                        <li><option value="">Todas</option></li>
+                                        <li><option value="1">prueba</option></li>
+                                        <li><option value="3">deportes</option></li>
+                                        <li><option value="4">estudios</option></li>
+                                        <li><option value="5">otro</option></li>
+                                    </select>
+                                    <input type="submit" value="filtrar">
+                            </form>
+                        </ul>
+                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Tareas Completadas</a>
+                    </li>
+                </ul>
+            </th> 
+            <th></th> 
+            </tr>
       </thead> 
       <thead>
         <tr>
@@ -45,13 +52,11 @@
       <tbody>
         {% for tarea in context %}
         <tr>
-          <td>{{ tarea.titulo }}</td>
-          <td>{{ tarea.estados }}</td>
-          
-          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{ tarea.id }}">
-           Ver 
-        </button></td>
-        
+            <td>{{ tarea.titulo }}</td>
+            <td>{{ tarea.estados }}</td>
+            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{ tarea.id }}">
+            Ver 
+            </button></td>
         </tr>
         <div class="modal fade" id="exampleModal{{ tarea.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ tarea.id }}" aria-hidden="true">
             <div class="modal-dialog">
@@ -65,10 +70,20 @@
                         <h3> <img src="{% static "tareas/img/calendario.png" %}" alt="Avatar Logo" style="width:40px;" class="rounded-pill">  {{ tarea.vencimiento }}  </h3>
                         <h3> <div class="spinner-border text-info"></div> {{ tarea.estados }} </h3>
                         <h3> Usuario = {{ tarea.identificador }}</h3>
-                        <h3> Nombre de tu tarea = {{ tarea.etiqueta_tarea }}</h3>      
+                        <h3> Etiqueta = {{ tarea.etiqueta_tarea }}</h3> 
+                        <h3> {{tarea.comentario}} </h3>
+
+                        <div class="form-floating">
+                            <form action="{% url 'comentario' tarea.id %}" method="POST">
+                                {% csrf_token %}
+                                <textarea class="form-control" name="comentario" placeholder="Leave a comment here" style="height: 100px">Modifica aquí tu comentario</textarea>
+                                <br>
+                                <button class="btn btn-info" type="submit">Guardar Comentario</button>
+                            </form>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Retornar</button>      
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Retornar</button>   
                         <form action="{% url 'cambiarEstado' tarea.id %}" method='POST' style="display: inline;">
                             {% csrf_token %}
                             <button class="btn btn-danger" type="submit">Completar</button>
@@ -84,13 +99,8 @@
         </div>
         {% endfor %}
         </tbody>
-      
     </table>
   </div>
-  
-
-
-
 {% endblock content %}
 
 

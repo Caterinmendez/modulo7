@@ -11,5 +11,6 @@ urlpatterns = [
     path('editarTarea/<pk>/', PostUpdateView.as_view(), name= 'editarTarea'),
     path('eliminarTarea/<pk>/', EiminarTarea.as_view(), name= 'eliminarTarea'),
     path('cambiarEstado/<id>/', views.cambiarEstado, name= 'cambiarEstado'),
+    path('comentario/<id>/', views.comentario, name= 'comentario'),
 ]
 

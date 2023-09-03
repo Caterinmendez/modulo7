@@ -8,7 +8,7 @@ from django.utils import timezone
 class TareaForm(ModelForm):
     class Meta:
         model = Tarea
-        fields = ['titulo', 'descripcion', 'vencimiento','identificador', 'etiqueta_tarea', 'estados',]
+        fields = ['titulo', 'descripcion', 'vencimiento','identificador', 'etiqueta_tarea', 'estados', 'comentario',]
         widgets = {
             'vencimiento': forms.DateInput( attrs={'type': 'date' , 'value': f'{timezone.now().date()}'}),
         }
