@@ -1,25 +1,94 @@
 {% extends 'tareas/layouts/base.html' %}
 {% load static %}
 
+
 {% block content %}
 <h1>Oliwis {{user.username}} </h1>
 
-<a href="{% url 'crearTarea' %}">Crear Tarea</a>
+<h2>Bienvenid@ a tus tareas</h2>
+<p>Seleccióna (Agregar Tarea) para iniciar una nueva tarea:</p>  
 
-{% for tarea in context %}
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <form action="{% url 'editarTarea' tarea.id %}" method='POST' style="display: inline;">
-                {% csrf_token %}
-                <button class="btn btn-link" type="submit">{{tarea.titulo}}</button>
+<a href="{% url 'crearTarea' %}">Agregar Tarea</a>
+
+<div class="container col-6 mt-3" >
+         
+    <table class="table table-dark table-hover">
+         
+      <thead>
+        <tr>
+          <th>
+            <form method="GET">
+                <label for="etiqueta_tarea">Etiqueta</label>
+                <select name="etiqueta_tarea" id="etiqueta_tarea">
+                    <option value="">todas</option>
+                    <option value="1">prueba</option>
+                    <option value="3">deportes</option>
+                    <option value="4">estudios</option>
+                    <option value="5">otro</option>  
+                </select>
+                <input type="submit" value="filtrar">
             </form>
-            <form action="{% url 'eliminarTarea' tarea.id %}" method='POST' style="display: inline;">
-                {% csrf_token %}
-                <button class="btn btn-danger" type="submit">Eliminar</button>
-            </form> 
+         </th> 
+          <th></th> 
+          <th></th> 
+          
+        </tr>
+      </thead> 
+      <thead>
+        <tr>
+          <th>Nombre Tarea </th>   
+          <th>Estado</th> 
+          <th>ver más</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for tarea in context %}
+        <tr>
+          <td>{{ tarea.titulo }}</td>
+          <td>{{ tarea.estados }}</td>
+          
+          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{ tarea.id }}">
+           Ver 
+        </button></td>
+        
+        </tr>
+        <div class="modal fade" id="exampleModal{{ tarea.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ tarea.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel{{ tarea.id }}">{{ tarea.titulo }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">                        
+                        <h3> Descripción = {{ tarea.descripcion }}</h3>
+                        <h3> <img src="{% static "tareas/img/calendario.png" %}" alt="Avatar Logo" style="width:40px;" class="rounded-pill">  {{ tarea.vencimiento }}  </h3>
+                        <h3> <div class="spinner-border text-info"></div> {{ tarea.estados }} </h3>
+                        <h3> Usuario = {{ tarea.identificador }}</h3>
+                        <h3> Nombre de tu tarea = {{ tarea.etiqueta_tarea }}</h3>      
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Retornar</button>      
+                        <form action="{% url 'cambiarEstado' tarea.id %}" method='POST' style="display: inline;">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit">Completar</button>
+                        </form>                        
+                        <form action="{% url 'eliminarTarea' tarea.id %}" method='POST' style="display: inline;">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit">Eliminar</button>
+                        </form> 
+                        <a href="{% url 'editarTarea' tarea.id %}" class="btn btn-link">Editar</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-{% endfor %}
+        {% endfor %}
+        </tbody>
+      
+    </table>
+  </div>
+  
+
 
 
 {% endblock content %}

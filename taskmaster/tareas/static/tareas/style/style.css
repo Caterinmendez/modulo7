@@ -34,4 +34,7 @@ footer ul li a {
     color: white;
 }
 
+#miModalBody {
+    text-align: justify;
+}
 

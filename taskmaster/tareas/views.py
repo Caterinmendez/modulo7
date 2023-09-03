@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import UpdateView, DeleteView, View
 from .models import Tarea
 from .forms.tareas.forms import TareaForm
 
@@ -8,41 +8,62 @@ from .forms.tareas.forms import TareaForm
 def index(request):
     return render(request,"tareas/index.html")
 
-"""def home(request):
-    return render(request,"tareas/home.html")"""
 
-class CrearListaTarea(ListView):
-    model = Tarea 
-    template_name = 'tareas/home.html'
-    context_objects_name = 'context'
+def crearTarea(request):
+    form = TareaForm()    
+    if request.method == 'POST':
+        form = TareaForm(request.POST)
+        
+        if form.is_valid():
+            titulo = form.cleaned_data["titulo"]
+            descripcion = form.cleaned_data["descripcion"]
+            vencimiento = form.cleaned_data["vencimiento"]
+            estados = form.cleaned_data["estados"]
+            identificador = form.cleaned_data["identificador"]
+            etiqueta_tarea = form.cleaned_data["etiqueta_tarea"]
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        filtro = self.request.GET.get('filtro')
+            post = Tarea(
+                titulo = titulo,
+                descripcion = descripcion,
+                vencimiento = vencimiento,
+                estados = estados,
+                identificador = identificador,
+                etiqueta_tarea = etiqueta_tarea,                
+            )
+            post.save()
+            return redirect('home')
+        else:
+            return render(request, 'tareas/layouts/partials/crearTarea.html', {"form":form})
+    return render(request, 'tareas/layouts/partials/crearTarea.html', {"form":form})
 
-        if filtro:
-            queryset = queryset.filter(titulo__contains=filtro)
 
-        return queryset
-
-
-class CrearTarea(CreateView):
-    model = Tarea
-    form_class = TareaForm
-    template_name = 'tareas/layouts/partials/crearTarea.html'
-    success_url = reverse_lazy('home')
-
-class EditarTarea(UpdateView):
+class PostUpdateView(UpdateView):
     model = Tarea
     form_class = TareaForm
     template_name = 'tareas/layouts/partials/editarTarea.html'
     success_url = reverse_lazy('home')
+
 
 class EiminarTarea(DeleteView):
     model = Tarea
     success_url = reverse_lazy('home')
 
 
-def listarTarea(request):
-    tarea = Tarea.objects.all()
-    return render(request, 'tareas/home.html' ,{"context": tarea})
+class TareaListView(View):
+    def get(self, request):
+        queryset = Tarea.objects.filter(identificador=request.user)
+        etiqueta_tarea = request.GET.get('etiqueta_tarea')
+
+        if etiqueta_tarea:
+            queryset = queryset.filter(etiqueta_tarea=etiqueta_tarea)
+
+        return render(request, 'tareas/home.html', {"context": queryset})
+
+
+
+def cambiarEstado(request, id):
+    tarea = Tarea.objects.get(pk=id)
+    if request.method == "POST":
+        tarea.estados = 'meta cumplida'
+        tarea.save()
+        return redirect('home') 
