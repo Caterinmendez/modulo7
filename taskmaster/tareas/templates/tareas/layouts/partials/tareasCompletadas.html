@@ -1,16 +1,8 @@
 {% extends 'tareas/layouts/base.html' %}
 {% load static %}
+{% block content  %}
 
-
-{% block content %}
-<h1>Oliwis {{user.username}} </h1>
-
-<h2>Bienvenid@ a tus tareas</h2>
-<p>Seleccióna (Agregar Tarea) para iniciar una nueva tarea:</p>  
-
-<a href="{% url 'crearTarea' %}">Agregar Tarea</a>
-<a href="{% url 'tareasCompletadas' %}">Tareas Completadas</a>
-
+<a href="{% url 'home' %}">Home</a>
 
 <div class="container col-6 mt-3" >
     <table class="table table-dark table-hover">        
@@ -19,28 +11,15 @@
             <th></th> 
             <th>
                 <ul class="nav nav-tabs">                
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Etiquetas</a>
-                            <ul class="dropdown-menu">
-                                <form method="GET">
-                                    <label for="etiqueta_tarea"></label>
-                                    <select name="etiqueta_tarea" id="etiqueta_tarea">
-                                        <li><option value="">Todas</option></li>
-                                        <li><option value="1">prueba</option></li>
-                                        <li><option value="3">deportes</option></li>
-                                        <li><option value="4">estudios</option></li>
-                                        <li><option value="5">otro</option></li>
-                                    </select>
-                                    <input type="submit" value="filtrar">
-                            </form>
-                        </ul>
-                        </li>
+                   
+                  
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Tareas Completadas</a>
                     </li>
                 </ul>
             </th> 
             <th></th> 
+            
             </tr>
       </thead> 
       <thead>
@@ -52,7 +31,7 @@
       </thead>
       
       <tbody>
-        {% for tarea in context %}
+        {% for tarea in tareasCompletadas %}
         <tr>
             <td>{{ tarea.titulo }}</td>
             <td>{{ tarea.estados }}</td>
@@ -103,8 +82,15 @@
         </tbody>
     </table>
   </div>
-{% endblock content %}
 
 
 
 
+
+
+
+
+
+
+
+{% endblock content  %}

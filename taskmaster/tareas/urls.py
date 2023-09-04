@@ -12,5 +12,7 @@ urlpatterns = [
     path('eliminarTarea/<pk>/', EiminarTarea.as_view(), name= 'eliminarTarea'),
     path('cambiarEstado/<id>/', views.cambiarEstado, name= 'cambiarEstado'),
     path('comentario/<id>/', views.comentario, name= 'comentario'),
+    path('tareasCompletadas/', views.tareasCompletadas, name='tareasCompletadas'),
+    path('excluiMetaCumplida/', views.excluirMetaCumplida, name= 'excluirMetaCumplida'),
 ]
 

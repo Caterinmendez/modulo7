@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DeleteView, View
+from django.views.generic import UpdateView, DeleteView, ListView
 from .models import Tarea
 from .forms.tareas.forms import TareaForm
 
@@ -51,15 +51,22 @@ class EiminarTarea(DeleteView):
     success_url = reverse_lazy('home')
 
 
-class TareaListView(View):
-    def get(self, request):
-        queryset = Tarea.objects.filter(identificador=request.user)
-        etiqueta_tarea = request.GET.get('etiqueta_tarea')
+class TareaListView(ListView):
+    model = Tarea
+    template_name = 'tareas/home.html'
+    context_object_name = 'context'
+
+    def get_queryset(self):
+        queryset = Tarea.objects.filter(identificador=self.request.user)
+        etiqueta_tarea = self.request.GET.get('etiqueta_tarea')
 
         if etiqueta_tarea:
             queryset = queryset.filter(etiqueta_tarea=etiqueta_tarea)
 
-        return render(request, 'tareas/home.html', {"context": queryset})
+        queryset = queryset.exclude(estados = 'meta cumplida')
+        return queryset
+
+
 
 def cambiarEstado(request, id):
     tarea = Tarea.objects.get(pk=id)
@@ -75,6 +82,13 @@ def comentario(request, id):
     if request.method == "POST":
         nuevo_comentario = request.POST.get('comentario')  
         tarea.comentario = nuevo_comentario  
-        tarea.save()  
+        tarea.save() 
         return redirect('home')  
 
+def tareasCompletadas(request):
+    tareasCompletadas = Tarea.objects.filter(estados = 'meta cumplida')
+    return render(request, 'tareas/layouts/partials/tareasCompletadas.html',{'tareasCompletadas': tareasCompletadas})
+
+def excluirMetaCumplida(request):
+    excluirTarea = Tarea.objects.exclude(estados = 'meta cumplida')
+    return render(request, 'home', {'excluirTarea': excluirTarea } ) 
