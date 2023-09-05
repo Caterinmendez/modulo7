@@ -5,5 +5,5 @@ from . import views
 from .views import *
 
 urlpatterns = [
-    
+    path('registro/', views.registro, name='registro'),
 ]

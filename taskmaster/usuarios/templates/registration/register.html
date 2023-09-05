@@ -1,0 +1,15 @@
+{% extends 'tareas/layouts/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <form class="forms registro" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-info">Registrarse</button>
+    </form>
+</div>
+
+{% endblock content %}

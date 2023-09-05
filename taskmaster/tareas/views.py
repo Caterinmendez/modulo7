@@ -92,3 +92,4 @@ def tareasCompletadas(request):
 def excluirMetaCumplida(request):
     excluirTarea = Tarea.objects.exclude(estados = 'meta cumplida')
     return render(request, 'home', {'excluirTarea': excluirTarea } ) 
+

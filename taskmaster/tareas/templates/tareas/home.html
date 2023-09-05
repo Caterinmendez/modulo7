@@ -3,6 +3,7 @@
 
 
 {% block content %}
+<div class="efecto2">
 <h1>Oliwis {{user.username}} </h1>
 
 <h2>Bienvenid@ a tus tareas</h2>
@@ -10,7 +11,7 @@
 
 <a href="{% url 'crearTarea' %}">Agregar Tarea</a>
 <a href="{% url 'tareasCompletadas' %}">Tareas Completadas</a>
-
+</div>
 
 <div class="container col-6 mt-3" >
     <table class="table table-dark table-hover">        
@@ -34,9 +35,6 @@
                                     <input type="submit" value="filtrar">
                             </form>
                         </ul>
-                        </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Tareas Completadas</a>
                     </li>
                 </ul>
             </th> 
@@ -50,32 +48,32 @@
           <th>ver más</th>
         </tr>
       </thead>
-      
       <tbody>
         {% for tarea in context %}
         <tr>
             <td>{{ tarea.titulo }}</td>
             <td>{{ tarea.estados }}</td>
-            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{ tarea.id }}">
+            <td><button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal{{ tarea.id }}">
             Ver 
             </button></td>
         </tr>
         <div class="modal fade" id="exampleModal{{ tarea.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ tarea.id }}" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content">            
                     <div class="modal-header">
+                        <img class="iconoUsuario1" src="{% static "tareas/img/iconoUsuario1.gif" %}" alt="Mi GIF" > 
                         <h1 class="modal-title fs-5" id="exampleModalLabel{{ tarea.id }}">{{ tarea.titulo }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">                        
-                        <h3> Descripción = {{ tarea.descripcion }}</h3>
-                        <h3> <img src="{% static "tareas/img/calendario.png" %}" alt="Avatar Logo" style="width:40px;" class="rounded-pill">  {{ tarea.vencimiento }}  </h3>
+                        <h3> <img src="{% static "tareas/img/descripcion-del-trabajo.png" %}" alt="descripcionTarea" class="descripcionTarea">{{ tarea.descripcion }}</h3>
+                        <h3> <img src="{% static "tareas/img/calendario.png" %}" alt="Avatar Logo" class="rounded-pill">{{ tarea.vencimiento }}</h3>
                         <h3> <div class="spinner-border text-info"></div> {{ tarea.estados }} </h3>
-                        <h3> Usuario = {{ tarea.identificador }}</h3>
-                        <h3> Etiqueta = {{ tarea.etiqueta_tarea }}</h3> 
-                        <h3> {{tarea.comentario}} </h3>
+                        <h3> <img src="{% static "tareas/img/usuario.gif" %}" alt="usuario" class="usuario">{{ tarea.identificador }}</h3>
+                        <h3> <img src="{% static "tareas/img/iconoEtiqueta.png" %}" alt="iconoEtiqueta" class="iconoEtiqueta">{{ tarea.etiqueta_tarea }}</h3> 
+                        <h3> <img src="{% static "tareas/img/iconComentario.gif" %}" alt="iconComentario" class="iconComentario">{{tarea.comentario}} </h3>
 
-                        <div class="form-floating">
+                        <div class="form-floating ">
                             <form action="{% url 'comentario' tarea.id %}" method="POST">
                                 {% csrf_token %}
                                 <textarea class="form-control" name="comentario" placeholder="Leave a comment here" style="height: 100px">Modifica aquí tu comentario</textarea>
@@ -85,16 +83,16 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Retornar</button>   
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Retornar</button>   
                         <form action="{% url 'cambiarEstado' tarea.id %}" method='POST' style="display: inline;">
                             {% csrf_token %}
-                            <button class="btn btn-danger" type="submit">Completar</button>
+                            <button class="btn btn-outline-info" type="submit">Completar</button>
                         </form>                        
                         <form action="{% url 'eliminarTarea' tarea.id %}" method='POST' style="display: inline;">
                             {% csrf_token %}
-                            <button class="btn btn-danger" type="submit">Eliminar</button>
+                            <button class="btn btn-outline-info" type="submit">Eliminar</button>
                         </form> 
-                        <a href="{% url 'editarTarea' tarea.id %}" class="btn btn-link">Editar</a>
+                        <a href="{% url 'editarTarea' tarea.id %}" class="btn btn-outline-info">Editar</a>
                     </div>
                 </div>
             </div>

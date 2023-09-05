@@ -10,7 +10,9 @@
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
-   
+    <video autoplay loop muted plays-inline class="back-video">
+        <source src="{% static "tareas/vid/fondo1prueba.mp4" %}" type="video/mp4">
+    </video>
     {% include 'tareas/layouts/partials/menu.html' %}
     <main>
         {% block content %}{% endblock content %}

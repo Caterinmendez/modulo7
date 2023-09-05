@@ -2,9 +2,14 @@
 {% load static %}
 
 {% block content %}
+<div class="efecto">
+    
+    <img class='logo'src="{% static "tareas/img/logoimagen.png" %}" alt="">
+    <h1>Bienvenid@ {{user.username}}</h1> 
 
-<h1>Bienvenidos {{user.username}}</h1>   
+    <a href="{% url 'login' %}">Inicio</a>
+    <a href="{% url 'registro' %}">Registrarse</a>
 
-<a href="{% url 'login' %}"><img src="{% static "tareas/img/logoimagen.png" %} " alt="" ></a>
+</div>
 
 {% endblock content %}

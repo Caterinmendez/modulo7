@@ -3,16 +3,12 @@
 
 {% block content %}
 
-<form class="forms" method='POST'>
+
+  <form class="forms" method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type='submit'>inicio sesion</button>
-
-
-</form>
-
-
-
-
-
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-info">Iniciar Sesión</button>
+  </form>
+       
+  
 {% endblock content %}
