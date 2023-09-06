@@ -7,12 +7,24 @@ class Etiqueta(models.Model):
 
     def __str__(self) -> str:
         return self.tipo
+    
+
+class Prioridad(models.Model):
+    tipo = models.CharField(max_length=15)
+
+    def __str__(self) -> str:
+        return self.tipo
 
 class Tarea(models.Model):
     ESTADOS = [
         ('iniciado', 'iniciado'),
         ('casi-casi', 'casi-casi'),
         ('meta cumplida', 'meta cumplida')
+]
+    PRIORIDAD_CHOICES = [
+        ('alta','Alta'),
+        ('media','Media'),
+        ('baja','Baja'),
 ]
 
     titulo = models.CharField(max_length=50, blank=False, null=False)
@@ -22,6 +34,8 @@ class Tarea(models.Model):
     identificador = models.ForeignKey(User, on_delete=models.CASCADE)
     etiqueta_tarea = models.ForeignKey(Etiqueta, default=1, on_delete=models.CASCADE)
     comentario = models.TextField(max_length=200, null=True) 
+    prioridad = models.CharField(max_length=10, choices=PRIORIDAD_CHOICES, default='media')
+
 
 
     def __str__(self) -> str:

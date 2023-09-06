@@ -22,6 +22,7 @@ def crearTarea(request):
             identificador = form.cleaned_data["identificador"]
             etiqueta_tarea = form.cleaned_data["etiqueta_tarea"]
             comentario = form.cleaned_data["comentario"]
+            prioridad = form.cleaned_data["prioridad"]
 
             post = Tarea(
                 titulo = titulo,
@@ -30,7 +31,8 @@ def crearTarea(request):
                 estados = estados,
                 identificador = identificador,
                 etiqueta_tarea = etiqueta_tarea,    
-                comentario = comentario,            
+                comentario = comentario,      
+                prioridad = prioridad,      
             )
             post.save()
             return redirect('home')
@@ -62,9 +64,13 @@ class TareaListView(ListView):
 
         if etiqueta_tarea:
             queryset = queryset.filter(etiqueta_tarea=etiqueta_tarea)
+        
+        queryset = queryset.order_by('prioridad')
 
         queryset = queryset.exclude(estados = 'meta cumplida')
         return queryset
+
+
 
 
 
@@ -92,4 +98,5 @@ def tareasCompletadas(request):
 def excluirMetaCumplida(request):
     excluirTarea = Tarea.objects.exclude(estados = 'meta cumplida')
     return render(request, 'home', {'excluirTarea': excluirTarea } ) 
+
 
