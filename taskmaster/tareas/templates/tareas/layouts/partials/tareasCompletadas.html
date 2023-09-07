@@ -21,22 +21,25 @@
                 </ul>
             </th> 
             <th></th> 
-            
+            <th></th> 
             </tr>
       </thead> 
       <thead>
         <tr>
           <th>Nombre Tarea </th>   
           <th>Estado</th> 
+          <th>Prioridad</th>
           <th>ver más</th>
         </tr>
       </thead>
-      
       <tbody>
         {% for tarea in tareasCompletadas %}
         <tr>
             <td>{{ tarea.titulo }}</td>
             <td>{{ tarea.estados }}</td>
+            <td class="{% if tarea.prioridad == 'Alta' %}alta{% elif tarea.prioridad == 'Media' %}media{% elif tarea.prioridad == 'Baja' %}baja{% endif %}">
+                {{ tarea.prioridad }}
+            </td>
             <td><button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal{{ tarea.id }}">
             Ver 
             </button></td>
@@ -45,7 +48,9 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <img class="iconoUsuario1" src="{% static "tareas/img/iconoUsuario1.gif" %}" alt="Mi GIF" > 
                         <h1 class="modal-title fs-5" id="exampleModalLabel{{ tarea.id }}">{{ tarea.titulo }}</h1>
+                        <h3> <img src="{% static "tareas/img/prioridades.png" %}" alt="Avatar Logo" class="rounded-pill ">{{ tarea.prioridad }}</h3>  
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">                        

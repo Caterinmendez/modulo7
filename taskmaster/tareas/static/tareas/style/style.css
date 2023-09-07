@@ -226,6 +226,7 @@ footer ul li a {
 .rounded-pill{
     width:40px;
     margin-right: 10px;
+    margin-left: 50px;
 }
 
 .descripcionTarea{
@@ -249,9 +250,23 @@ footer ul li a {
    
 }
 
-.modal-content h3{
-    text-align: right;
-    width:10px;
-    margin-right: 10px;
-    
+.registro{
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.registro label{
+    margin-bottom: 12px;
+    display: block;
+
+}
+
+
+.formulario-edicion {
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo con opacidad */
+    padding: 20px; /* Espaciado interno */
+    max-width: 400px; /* Ancho máximo del formulario */
+    margin: 0 auto; /* Centrar horizontalmente */
 }
